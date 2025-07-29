@@ -1,0 +1,810 @@
+¡Perfecto! Te creo la **Web App de Control de Caja LBJ 2026**:
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LBJ Control de Caja 2026</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'>💰</text%3E%3C/svg%3E">
+    <meta name="apple-mobile-web-app-title" content="💰 LBJ Caja">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 10px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+            border: 2px solid #FFD700;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #000000;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            background: #1a1a1a;
+            border-bottom: 2px solid #FFD700;
+        }
+        
+        .nav-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: #1a1a1a;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+            border-right: 1px solid #333;
+        }
+        
+        .nav-tab:last-child {
+            border-right: none;
+        }
+        
+        .nav-tab.active {
+            background: #FFD700;
+            color: #000000;
+            font-weight: bold;
+        }
+        
+        .nav-tab:hover:not(.active) {
+            background: #333;
+        }
+        
+        .content {
+            padding: 30px;
+            min-height: 400px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .date-selector {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border: 1px solid #FFD700;
+        }
+        
+        .date-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+            background: #000000;
+            color: #ffffff;
+            text-align: center;
+        }
+        
+        .cash-form {
+            background: #2d2d2d;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #FFD700;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #FFD700;
+            font-size: 1.1em;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+            background: #000000;
+            color: #ffffff;
+            text-align: center;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+            background: #000000;
+            color: #ffffff;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #000000;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .result-box {
+            background: #2d2d2d;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border: 2px solid #FFD700;
+            text-align: center;
+        }
+        
+        .result-positive {
+            border-color: #00ff00;
+            background: rgba(0, 255, 0, 0.1);
+        }
+        
+        .result-negative {
+            border-color: #ff0000;
+            background: rgba(255, 0, 0, 0.1);
+        }
+        
+        .result-neutral {
+            border-color: #FFD700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+        
+        .result-amount {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-top: 20px;
+        }
+        
+        .calendar-header {
+            background: #FFD700;
+            color: #000000;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        
+        .calendar-day {
+            background: #2d2d2d;
+            padding: 15px 5px;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #444;
+            min-height: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .calendar-day:hover {
+            background: #444;
+        }
+        
+        .calendar-day.completed {
+            background: #00aa00;
+            color: white;
+        }
+        
+        .calendar-day.error {
+            background: #aa0000;
+            color: white;
+        }
+        
+        .calendar-day.warning {
+            background: #aa6600;
+            color: white;
+        }
+        
+        .calendar-day.today {
+            border: 3px solid #FFD700;
+        }
+        
+        .calendar-day.sunday {
+            background: #666;
+            color: #999;
+            cursor: not-allowed;
+        }
+        
+        .day-number {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .day-status {
+            font-size: 0.8em;
+            margin-top: 2px;
+        }
+        
+        .month-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .month-btn {
+            background: #FFD700;
+            color: #000000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .month-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #FFD700;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .stat-card {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #FFD700;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: #ffffff;
+            font-size: 1.1em;
+        }
+        
+        .history-item {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #FFD700;
+        }
+        
+        .history-date {
+            font-weight: bold;
+            color: #FFD700;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        
+        .history-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-tab {
+                font-size: 0.9em;
+                padding: 12px 8px;
+            }
+            
+            .calendar-grid {
+                gap: 2px;
+            }
+            
+            .calendar-day {
+                min-height: 50px;
+                padding: 8px 2px;
+                font-size: 0.9em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+        
+        .export-section {
+            background: #2d2d2d;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #FFD700;
+            text-align: center;
+        }
+        
+        .btn-secondary {
+            background: #444;
+            color: #FFD700;
+            border: 2px solid #FFD700;
+        }
+        
+        .btn-secondary:hover {
+            background: #FFD700;
+            color: #000000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💰 LBJ</h1>
+            <div class="subtitle">Control de Caja 2026 - La Buena Jerga</div>
+        </div>
+        
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="switchTab('registro')">📝 Registro Diario</button>
+            <button class="nav-tab" onclick="switchTab('calendario')">📅 Calendario</button>
+            <button class="nav-tab" onclick="switchTab('estadisticas')">📊 Estadísticas</button>
+            <button class="nav-tab" onclick="switchTab('historial')">📋 Historial</button>
+        </div>
+        
+        <div class="content">
+            <!-- TAB REGISTRO DIARIO -->
+            <div id="registro" class="tab-content active">
+                <div class="date-selector">
+                    <label class="form-label">📅 Fecha:</label>
+                    <input type="date" id="currentDate" class="date-input">
+                </div>
+                
+                <div class="cash-form">
+                    <h3 style="color: #FFD700; margin-bottom: 20px;">🌅 APERTURA DE CAJA</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">💵 Efectivo inicial:</label>
+                        <input type="number" id="efectivoInicial" class="form-input" placeholder="250" step="0.01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">👤 Barbero que cuenta:</label>
+                        <select id="barberoApertura" class="form-select">
+                            <option value="">Seleccionar barbero...</option>
+                            <option value="Juanjo">Juanjo</option>
+                            <option value="Quim">Quim</option>
+                            <option value="Jordi">Jordi</option>
+                            <option value="Genís">Genís</option>
+                            <option value="Ian Paul">Ian Paul</option>
+                            <option value="Miquel">Miquel</option>
+                            <option value="Alex">Alex</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">🕐 Hora apertura:</label>
+                        <input type="time" id="horaApertura" class="form-input" value="09:00">
+                    </div>
+                    
+                    <button class="btn" onclick="guardarApertura()">💾 Guardar Apertura</button>
+                </div>
+                
+                <div class="cash-form">
+                    <h3 style="color: #FFD700; margin-bottom: 20px;">🌙 CIERRE DE CAJA</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">💰 Facturación real en efectivo (Exora):</label>
+                        <input type="number" id="facturacionReal" class="form-input" placeholder="165.50" step="0.01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">💵 Efectivo real en caja:</label>
+                        <input type="number" id="efectivoReal" class="form-input" placeholder="415.50" step="0.01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">👤 Barbero que cuenta:</label>
+                        <select id="barberoCierre" class="form-select">
+                            <option value="">Seleccionar barbero...</option>
+                            <option value="Juanjo">Juanjo</option>
+                            <option value="Quim">Quim</option>
+                            <option value="Jordi">Jordi</option>
+                            <option value="Genís">Genís</option>
+                            <option value="Ian Paul">Ian Paul</option>
+                            <option value="Miquel">Miquel</option>
+                            <option value="Alex">Alex</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">🕐 Hora cierre:</label>
+                        <input type="time" id="horaCierre" class="form-input" value="20:30">
+                    </div>
+                    
+                    <button class="btn" onclick="calcularCuadre()">🧮 Calcular Cuadre</button>
+                </div>
+                
+                <div id="resultadoCuadre" class="result-box" style="display: none;">
+                    <h3>📊 RESULTADO DEL DÍA</h3>
+                    <div id="efectivoEsperado" class="result-amount"></div>
+                    <div id="diferencia" class="result-amount"></div>
+                    <div id="estadoCaja"></div>
+                    <button class="btn" onclick="guardarCierre()" id="btnGuardarCierre">💾 Guardar Cierre</button>
+                </div>
+            </div>
+            
+            <!-- TAB CALENDARIO -->
+            <div id="calendario" class="tab-content">
+                <div class="month-nav">
+                    <button class="month-btn" onclick="changeMonth(-1)">← Anterior</button>
+                    <div class="month-title" id="monthTitle">Enero 2026</div>
+                    <button class="month-btn" onclick="changeMonth(1)">Siguiente →</button>
+                </div>
+                
+                <div class="calendar-grid" id="calendarGrid">
+                    <!-- Calendar will be generated here -->
+                </div>
+                
+                <div style="margin-top: 20px; font-size: 0.9em;">
+                    <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
+                        <span>🟢 Cuadrada</span>
+                        <span>🟡 Diferencia menor</span>
+                        <span>🔴 Diferencia mayor</span>
+                        <span>⚪ Sin registrar</span>
+                        <span>🚫 Domingo (cerrado)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- TAB ESTADÍSTICAS -->
+            <div id="estadisticas" class="tab-content">
+                <div class="stats-grid" id="statsGrid">
+                    <!-- Stats will be generated here -->
+                </div>
+                
+                <div class="export-section">
+                    <h3 style="color: #FFD700; margin-bottom: 20px;">📊 Exportar Datos</h3>
+                    <button class="btn btn-secondary" onclick="exportarDatos()">📄 Exportar Resumen Mensual</button>
+                    <button class="btn btn-secondary" onclick="exportarTodo()">💾 Backup Completo</button>
+                </div>
+            </div>
+            
+            <!-- TAB HISTORIAL -->
+            <div id="historial" class="tab-content">
+                <div class="form-group">
+                    <label class="form-label">🔍 Filtrar por mes:</label>
+                    <select id="filtroMes" class="form-select" onchange="filtrarHistorial()">
+                        <option value="">Todos los meses</option>
+                        <option value="2026-01">Enero 2026</option>
+                        <option value="2026-02">Febrero 2026</option>
+                        <option value="2026-03">Marzo 2026</option>
+                        <option value="2026-04">Abril 2026</option>
+                        <option value="2026-05">Mayo 2026</option>
+                        <option value="2026-06">Junio 2026</option>
+                        <option value="2026-07">Julio 2026</option>
+                        <option value="2026-08">Agosto 2026</option>
+                        <option value="2026-09">Septiembre 2026</option>
+                        <option value="2026-10">Octubre 2026</option>
+                        <option value="2026-11">Noviembre 2026</option>
+                        <option value="2026-12">Diciembre 2026</option>
+                    </select>
+                </div>
+                
+                <div id="historialList">
+                    <!-- History will be generated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let currentMonth = 0; // 0 = Enero 2026
+        let registros = JSON.parse(localStorage.getItem('lbj_registros_2026') || '{}');
+        
+        // Configuración
+        const months = [
+            'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+            'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+        ];
+        
+        const weekdays = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+        
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            // Establecer fecha actual
+            const today = new Date();
+            const dateString = today.toISOString().split('T')[0];
+            document.getElementById('currentDate').value = dateString;
+            
+            // Cargar datos del día actual si existen
+            cargarDatosDia(dateString);
+            
+            // Generar calendario
+            generateCalendar();
+            updateStats();
+            updateHistorial();
+        });
+        
+        // Funciones de navegación
+        function switchTab(tabName) {
+            // Ocultar todos los tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Mostrar tab seleccionado
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Actualizar contenido según el tab
+            if (tabName === 'calendario') {
+                generateCalendar();
+            } else if (tabName === 'estadisticas') {
+                updateStats();
+            } else if (tabName === 'historial') {
+                updateHistorial();
+            }
+        }
+        
+        function changeMonth(direction) {
+            currentMonth += direction;
+            if (currentMonth < 0) currentMonth = 11;
+            if (currentMonth > 11) currentMonth = 0;
+            generateCalendar();
+        }
+        
+        // Funciones de registro
+        function guardarApertura() {
+            const fecha = document.getElementById('currentDate').value;
+            const efectivoInicial = parseFloat(document.getElementById('efectivoInicial').value);
+            const barbero = document.getElementById('barberoApertura').value;
+            const hora = document.getElementById('horaApertura').value;
+            
+            if (!fecha || isNaN(efectivoInicial) || !barbero || !hora) {
+                alert('Por favor, completa todos los campos de apertura');
+                return;
+            }
+            
+            if (!registros[fecha]) {
+                registros[fecha] = {};
+            }
+            
+            registros[fecha].apertura = {
+                efectivoInicial,
+                barbero,
+                hora,
+                timestamp: new Date().toISOString()
+            };
+            
+            localStorage.setItem('lbj_registros_2026', JSON.stringify(registros));
+            alert('✅ Apertura guardada correctamente');
+        }
+        
+        function calcularCuadre() {
+            const fecha = document.getElementById('currentDate').value;
+            const facturacion = parseFloat(document.getElementById('facturacionReal').value);
+            const efectivoReal = parseFloat(document.getElementById('efectivoReal').value);
+            
+            if (!registros[fecha] || !registros[fecha].apertura) {
+                alert('❌ Primero debes registrar la apertura de caja');
+                return;
+            }
+            
+            if (isNaN(facturacion) || isNaN(efectivoReal)) {
+                alert('❌ Por favor, completa los campos de facturación y efectivo real');
+                return;
+            }
+            
+            const efectivoInicial = registros[fecha].apertura.efectivoInicial;
+            const efectivoEsperado = efectivoInicial + facturacion;
+            const diferencia = efectivoReal - efectivoEsperado;
+            
+            // Mostrar resultado
+            document.getElementById('efectivoEsperado').textContent = `Debería haber: ${efectivoEsperado.toFixed(2)}€`;
+            document.getElementById('diferencia').textContent = `Diferencia: ${diferencia >= 0 ? '+' : ''}${diferencia.toFixed(2)}€`;
+            
+            const resultBox = document.getElementById('resultadoCuadre');
+            const estadoCaja = document.getElementById('estadoCaja');
+            
+            if (diferencia === 0) {
+                resultBox.className = 'result-box result-neutral';
+                estadoCaja.innerHTML = '✅ <strong>CAJA CUADRADA</strong>';
+            } else if (Math.abs(diferencia) <= 5) {
+                resultBox.className = 'result-box result-positive';
+                estadoCaja.innerHTML = `⚠️ <strong>Diferencia menor: ${diferencia > 0 ? 'SOBRA' : 'FALTA'} ${Math.abs(diferencia).toFixed(2)}€</strong>`;
+            } else {
+                resultBox.className = 'result-box result-negative';
+                estadoCaja.innerHTML = `❌ <strong>Diferencia mayor: ${diferencia > 0 ? 'SOBRA' : 'FALTA'} ${Math.abs(diferencia).toFixed(2)}€</strong>`;
+            }
+            
+            resultBox.style.display = 'block';
+        }
+        
+        function guardarCierre() {
+            const fecha = document.getElementById('currentDate').value;
+            const facturacion = parseFloat(document.getElementById('facturacionReal').value);
+            const efectivoReal = parseFloat(document.getElementById('efectivoReal').value);
+            const barbero = document.getElementById('barberoCierre').value;
+            const hora = document.getElementById('horaCierre').value;
+            
+            if (!barbero || !hora) {
+                alert('❌ Por favor, completa todos los campos de cierre');
+                return;
+            }
+            
+            const efectivoInicial = registros[fecha].apertura.efectivoInicial;
+            const efectivoEsperado = efectivoInicial + facturacion;
+            const diferencia = efectivoReal - efectivoEsperado;
+            
+            registros[fecha].cierre = {
+                facturacion,
+                efectivoReal,
+                efectivoEsperado,
+                diferencia,
+                barbero,
+                hora,
+                timestamp: new Date().toISOString()
+            };
+            
+            localStorage.setItem('lbj_registros_2026', JSON.stringify(registros));
+            alert('✅ Cierre guardado correctamente');
+            
+            // Limpiar formularios
+            document.getElementById('facturacionReal').value = '';
+            document.getElementById('efectivoReal').value = '';
+            document.getElementById('barberoCierre').value = '';
+            document.getElementById('resultadoCuadre').style.display = 'none';
+        }
+        
+        function cargarDatosDia(fecha) {
+            if (registros[fecha]) {
+                const registro = registros[fecha];
+                
+                if (registro.apertura) {
+                    document.getElementById('efectivoInicial').value = registro.apertura.efectivoInicial;
+                    document.getElementById('barberoApertura').value = registro.apertura.barbero;
+                    document.getElementById('horaApertura').value = registro.apertura.hora;
+                }
+                
+                if (registro.cierre) {
+                    document.getElementById('facturacionReal').value = registro.cierre.facturacion;
+                    document.getElementById('efectivoReal').value = registro.cierre.efectivoReal;
+                    document.getElementById('barberoCierre').value = registro.cierre.barbero;
+                    document.getElementById('horaCierre').value = registro.cierre.hora;
+                }
+            }
+        }
+        
+        // Cambio de fecha
+        document.getElementById('currentDate').addEventListener('change', function() {
+            const fecha = this.value;
+            cargarDatosDia(fecha);
+            document.getElementById('resultadoCuadre').style.display = 'none';
+        });
+        
+        // Funciones de calendario
+        function generateCalendar() {
+            const grid = document.getElementById('calendarGrid');
+            const monthTitle = document.getElementById('monthTitle');
+            
+            grid.innerHTML = '';
+            monthTitle.textContent = `${months[currentMonth]} 2026`;
+            
+            // Headers de días
+            weekdays.forEach(day => {
+                const header = document.createElement('div');
+                header.className = 'calendar-header';
+                header.textContent = day;
+                grid.appendChild(header);
+            });
+            
+            // Días del mes
+            const firstDay = new Date(2026, currentMonth, 1);
+            const lastDay = new Date(2026, currentMonth + 1, 0);
+            const startDate = new Date(firstDay);
+            startDate.setDate(startDate.getDate() - firstDay.getDay());
+            
+            for (let i = 0; i < 42; i++) {
+                const date = new Date(startDate);
+                date.setDate(startDate.getDate() + i);
+                
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                
+                const dayNumber = document.createElement('div');
+                dayNumber.className = 'day-number';
+                dayNumber.textContent = date.getDate();
+                
+                const dayStatus = document.createElement('div');
+                dayStatus.className = 'day-status';
+                
+                if (date.getMonth() !== currentMonth) {
+                    dayElement.style.opacity = '0.3';
+                } else {
+                    const dateString = date.toISOString().split('T')[0];
+                    const today = new Date().toISOString().split('T')[0];
+                    
+                    if (dateString === today) {
+                        dayElement.classList.add('today');
+                    }
+                    
+                    if (date.getDay() === 0) { // Domingo
+                        dayElement.classList.add('sunday');
+                        dayStatus.textContent = 'Cerrado';
+                    } else if (registros[dateString]) {
+                        const registro = registros[dateString];
+                        if (registro.apertura && registro.cierre) {
+                            const diff = Math.abs(registro.cierre.diferencia);
+                            if (diff === 0) {
+                                dayElement.classList.add('completed');
+                                dayStatus.textContent = '✅';
+                            } else if (diff <= 5) {​​​​​​​​​​​​​​​​
+```
